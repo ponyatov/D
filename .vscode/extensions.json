@@ -1,0 +1,7 @@
+{
+    "recommendations": [
+        "ms-vscode.makefile-tools",
+        // D
+        "webfreak.code-d",
+    ]
+}
