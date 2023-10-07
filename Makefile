@@ -1,5 +1,19 @@
+# var
+MODULE = $(notdir $(CURDIR))
+
 # rool
 CURL = curl -L -o
+
+# src
+D += source/hello.d
+
+# all
+.PHONY: all
+all: bin/$(MODULE)
+	$^
+
+bin/$(MODULE): $(D)
+	dmd $^
 
 # install
 .PHONY: install update
