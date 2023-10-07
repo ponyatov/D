@@ -7,13 +7,16 @@ CURL = curl -L -o
 # src
 D += source/hello.d
 
+DCC = dmd
+DCFLAGS += -od=tmp
+
 # all
 .PHONY: all
 all: bin/$(MODULE)
 	$^
 
 bin/$(MODULE): $(D)
-	dmd $^
+	$(DCC) $(DCFLAGS) -of=$@ $^ && file $@
 
 # install
 .PHONY: install update

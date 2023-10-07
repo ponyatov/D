@@ -1,0 +1,346 @@
+DMD(1)                        The D Language Foundation                        DMD(1)
+
+NAME
+       dmd - Digital Mars D2.x Compiler
+
+SYNOPSIS
+       dmd files ... [ -switch ... ]
+
+DESCRIPTION
+       dmd Compiles source code written in the D programming language.
+
+OPTIONS
+       file, file.d, file.htm, file.html
+              D source files to compile
+
+       file.di
+              D interface files
+
+       file.o Object files to link in
+
+       file.a Library files to link in
+
+       @cmdfile
+              A  file  to  read more command-line arguments from, which may contain #
+              single-line comments
+
+       -allinst
+              Generate code for all template instantiations
+
+       -betterC
+              Omit generating some runtime information and helper functions
+
+       -boundscheck=[on|safeonly|off]
+              Bounds checks on, in @safe only, or off
+
+       -c     Compile only, do not link
+
+       -check=[assert|bounds|in|invariant|out|switch][=[on|off]]
+              Enable or disable specific checks
+
+       -check=[h|help|?]
+              List information on all available checks
+
+       -checkaction=[D|C|halt|context]
+              Behavior on assert/boundscheck/finalswitch failure
+
+       -checkaction=[h|help|?]
+              List information on all available check actions
+
+       -color Turn colored console output on
+
+       -color=[on|off|auto]
+              Force colored console output on or off, or  only  when  not  redirected
+              (default)
+
+       -conf=filename
+              Use config file at filename
+
+       -cov   Do code coverage analysis
+
+       -cov=ctfe
+              Include code executed during CTFE in coverage report
+
+       -cov=nnn
+              Require at least nnn% code coverage
+
+       -cpp=filename
+              Use filename as the name of the C preprocessor to use for ImportC files
+
+       -D     Generate documentation
+
+       -Dddirectory
+              Write documentation file to directory
+
+       -Dffilename
+              Write documentation file to filename
+
+       -d     Silently allow deprecated features and symbols
+
+       -de    Issue  an error when deprecated features or symbols are used (halt com‐
+              pilation)
+
+       -dw    Issue a message when deprecated features or symbols are used (default)
+
+       -debug Compile in debug code
+
+       -debug=level
+              Compile in debug code <= level
+
+       -debug=ident
+              Compile in debug code identified by ident
+
+       -debuglib=name
+              Set symbolic debug library to name
+
+       -defaultlib=name
+              Set default library to name
+
+       -deps  Print module dependencies (imports/file/version/debug/lib)
+
+       -deps=filename
+              Write module dependencies to filename (only imports)
+
+       -extern-std=standard
+              Set C++ name mangling compatibility with standard
+
+       -extern-std=[h|help|?]
+              List all supported standards
+
+       -fPIC  Generate position independent code
+
+       -fPIE  Generate position independent executables
+
+       -g     Add symbolic debug info
+
+       -gdwarf=version
+              Add DWARF symbolic debug info
+
+       -gf    Emit debug info for all referenced types
+
+       -gs    Always emit stack frame
+
+       -gx    Add stack stomp code
+
+       -H     Generate 'header' file
+
+       -Hd=directory
+              Write 'header' file to directory
+
+       -Hf=filename
+              Write 'header' file to filename
+
+       -HC[=[silent|verbose]]
+              Generate C++ 'header' file
+
+       -HC=[?|h|help]
+              List available modes for C++ 'header' file generation
+
+       -HCd=directory
+              Write C++ 'header' file to directory
+
+       -HCf=filename
+              Write C++ 'header' file to filename
+
+       --help Print help and exit
+
+       -I=directory
+              Look for imports also in directory
+
+       -i[=pattern]
+              Include imported modules in the compilation
+
+       -ignore
+              Ignore unsupported pragmas
+
+       -inline
+              Do function inlining
+
+       -J=directory
+              Look for string imports also in directory
+
+       -L=linkerflag
+              Pass linkerflag to link
+
+       -lib   Generate library rather than object files
+
+       -lowmem
+              Enable garbage collection for the compiler
+
+       -m32   Generate 32 bit code
+
+       -m64   Generate 64 bit code
+
+       -main  Add default main() if not present already (e.g. for unittesting)
+
+       -makedeps[=filename]
+              Print dependencies in Makefile compatible format to filename or stdout.
+
+       -man   Open web browser on manual page
+
+       -map   Generate linker .map file
+
+       -mcpu=id
+              Generate instructions for architecture identified by id
+
+       -mcpu=[h|help|?]
+              List all architecture options
+
+       -mixin=filename
+              Expand and save mixins to file specified by filename
+
+       -mv=package.module=<filespec>
+              Use <filespec> as source file for package.module
+
+       -noboundscheck
+              No array bounds checking (deprecated, use -boundscheck=off)
+
+       -O     Optimize
+
+       -o-    Do not write object file
+
+       -od=directory
+              Write object & library files to directory
+
+       -of=filename
+              Name output file to filename
+
+       -op    Preserve source path for output files
+
+       -os=os Sets target operating system to os
+
+       -P=preprocessorflag
+              Pass preprocessorflag to C preprocessor
+
+       -preview=name
+              Enable an upcoming language change identified by name
+
+       -preview=[h|help|?]
+              List all upcoming language changes
+
+       -profile
+              Profile runtime performance of generated code
+
+       -profile=gc
+              Profile runtime allocations
+
+       -release
+              Contracts and asserts are not emitted, and bounds checking is performed
+              only in @safe functions
+
+       -revert=name
+              Revert language change identified by name
+
+       -revert=[h|help|?]
+              List all revertable language changes
+
+       -run   Compile, link, and run the program srcfile
+
+       -shared
+              Generate shared library (DLL)
+
+       -target=triple
+              Use triple as <arch>-[<vendor>-]<os>[-<cenv>[-<cppenv]]
+
+       -transition=name
+              Help with language change identified by name
+
+       -transition=[h|help|?]
+              List all language changes
+
+       -unittest
+              Compile in unit tests
+
+       -v     Verbose
+
+       -vasm  List generated assembler for each function
+
+       -vcolumns
+              Print character (column) numbers in diagnostics
+
+       -verror-style=[digitalmars|gnu]
+              Set the style for file/line number annotations on compiler messages
+
+       -verror-supplements=num
+              Limit  the  number of supplemental messages for each error (0 means un‐
+              limited)
+
+       -verrors=num
+              Limit the number of error messages (0 means unlimited)
+
+       -verrors=context
+              Show error messages with the context of the erroring source line
+
+       -verrors=spec
+              Show errors from speculative compiles such as __traits(compiles,...)
+
+       --version
+              Print compiler version and exit
+
+       -version=level
+              Compile in version code >= level
+
+       -version=ident
+              Compile in version code identified by ident
+
+       -vgc   List all gc allocations including hidden ones
+
+       -vtls  List all variables going into thread local storage
+
+       -vtemplates=[list-instances]
+              List statistics on template instantiations
+
+       -w     Warnings as errors (compilation will halt)
+
+       -wi    Warnings as messages (compilation will continue)
+
+       -wo    Warnings about use of obsolete features (compilation will continue)
+
+       -X     Generate JSON file
+
+       -Xf=filename
+              Write JSON file to filename
+
+       -Xcc=driverflag
+              Pass driverflag to linker driver (cc)
+
+TRANSITIONS
+       Language changes listed by -transition=id:
+
+       field  List all non-mutable fields which occupy an object instance
+
+       complex
+              Give deprecation messages about all  usages  of  complex  or  imaginary
+              types
+
+       tls    List all variables going into thread local storage
+
+       in     List all usages of 'in' on parameter
+
+LINKING
+       Linking  is  done  directly by the dmd compiler after a successful compile. To
+       prevent dmd from running the linker, use the -c switch.
+
+       The actual linking is done by running gcc.  This  ensures  compatibility  with
+       modules compiled with gcc.
+
+FILES
+       /etc/dmd.conf
+              System wide dmd config file. See dmd.conf(5) for details.
+
+ENVIRONMENT
+       The D compiler dmd uses the following environment variables:
+
+       DFLAGS    The value of DFLAGS is treated as if it were appended on the command
+                 line to dmd.
+
+AUTHOR
+       Copyright (c) 1999-2023 by The D Language Foundation written by Walter Bright
+
+ONLINE DOCUMENTATION
+       https://dlang.org/dmd.html ⟨https://dlang.org/dmd.html⟩
+
+SEE ALSO
+       dmd.conf(5) rdmd(1) dumpobj(1) obj2asm(1) gcc(1)
+
+The D Language Foundation             2023-09-15                               DMD(1)
