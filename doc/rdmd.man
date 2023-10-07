@@ -1,0 +1,88 @@
+RDMD(1)                                                                        Digital Mars D                                                                       RDMD(1)
+
+NAME
+       rdmd - Digital Mars D executable cacher
+
+SYNOPSIS
+       rdmd [compiler arguments] [rdmd arguments] progfile.d [program arguments]
+
+DESCRIPTION
+       rdmd is a program to compile, cache and execute D source code files or 'pseudo shell scripts' (using the she-bang syntax with dmd v0.146 or above) on Linux and Win‐
+       dows systems.
+
+       It will cache the executable in the /tmp directory by default and will re-compile the executable if any of the source file, the compiler or  rdmd  itself  is  newer
+       than the cached executable. It can optionally use gdmd if specified, but uses dmd by default.
+
+OPTIONS
+       --build-only
+              Just build the executable, don't run it
+
+       --chatty
+              Write compiler commands to stdout before executing them
+
+       --compiler=(dmd|gdmd|ldmd2)
+              Use the specified compiler (e.g. gdmd) instead of dmd
+
+       --dry-run
+              Do not compile, just show what commands would be run (implies --chatty)
+
+       --eval=code
+              Evaluate code as in perl -e (multiple --eval allowed)
+
+       --exclude=package
+              Exclude a package from the build (multiple --exclude allowed)
+
+       --include=package
+              Negate an --exclude switch or a package excluded by default
+
+       --extra-file=file
+              Include an extra source or object in the compilation. Useful if you need to add an extra object (compiled by another language maybe) or an extra source (when
+              rdmd picked up the .di file rather than the .d file) when compiling the program (multiple --extra-file allowed).
+
+       --force
+              Force re-compilation of source code [default = do not force]
+
+       --help Print help
+
+       --loop Assume "foreach (line; stdin.byLine()) { ... }" for eval
+
+       --main Add a stub main program to the mix (e.g. for unittesting)
+
+       --makedepend
+              Print dependencies in makefile format and exit
+
+       --makedepfile=file
+              Print dependencies in makefile format to file and continue
+
+       --man  Open web browser on manual page
+
+       --shebang
+              On some operating systems (e.g. Linux) all of the arguments to the interpreter in a shebang line are passed as one concatenated string.  In such an  environ‐
+              ment  if  you  need to supply multiple options to rdmd, place this option before any others.  This will cause rdmd to parse the string and extract all of the
+              options.
+
+       --tmpdir=tmp_dir_path
+              Specify directory to store cached program and other temporaries [default = as per http://dlang.org/phobos/std_file.html#.tempDir]
+
+ENVIRONMENT
+       RDMD_DMD
+              Specifies the D compiler to use, in the same way as --compiler, when --compiler is not specified.
+
+NOTES
+       dmd or gdmd must be in the current user context $PATH
+
+       rdmd does not support execution of D source code via stdin
+
+       rdmd will only compile and execute files with a '.d' file extension
+
+       rdmd's functionality will probably get folded into dmd itself
+
+AUTHOR
+       Written by Andrei Alexandrescu
+
+       Originally written by Dave Fladebo and Robert Mariottini
+
+SEE ALSO
+       dmd(1) gdmd(1)
+
+Digital Mars                                                                     2006-03-12                                                                         RDMD(1)

@@ -5,4 +5,4 @@ import std.stdio;
 void main() {
     string msg = "Hello";
     writeln(msg);
- }
+}

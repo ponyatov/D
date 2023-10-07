@@ -19,4 +19,8 @@
     "explorer.autoReveal": false,
     "files.insertFinalNewline": true,
     "git.enabled": false,
+
+    // D
+    "d.overrideDfmtEditorconfig": true,
+    "dfmt.braceStyle": "otbs"
 }

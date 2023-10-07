@@ -7,27 +7,25 @@ REL     = $(shell git rev-parse --short=4 HEAD)
 BRANCH  = $(shell git rev-parse --abbrev-ref HEAD)
 CORES  ?= $(shell grep processor /proc/cpuinfo | wc -l)
 
-# var
-MODULE = $(notdir $(CURDIR))
-
 # rool
 CURL = curl -L -o
 
 # src
-D += $(wildcard source/*.d)
+D += source/app.d $(filter-out source/app.d, $(wildcard source/*.d))
 J += $(wildcard *.json)
 
 # cfg
-DCC = dmd
-DCFLAGS += -od=tmp
+DC      = dmd
+DFLAGS += -of=bin/$(MODULE) -od=tmp
 
 # all
 .PHONY: all
-all: source/app.d $(D)
-	rdmd $<
+all: $(D)
+	rdmd $(DFLAGS) $<
 
-bin/$(MODULE): $(D)
-	$(DCC) $(DCFLAGS) -of=$@ $^
+bin/$(MODULE): $(D) $(J) Makefile
+	dub build
+# $(DC) $(DFLAGS) $^
 
 doc: doc/yazyk_programmirovaniya_d.pdf
 
@@ -46,10 +44,10 @@ $(D) $(J): .editorconfig
 install: doc /etc/apt/sources.list.d/d-apt.list
 	sudo apt --allow-unauthenticated install -yu d-apt-keyring
 	$(MAKE) update
-update:
 	dub fetch dfmt
+update:
 # sudo apt update
-# sudo apt install -yu `cat apt.txt`
+	sudo apt install -yu `cat apt.txt`
 /etc/apt/sources.list.d/d-apt.list:
 	sudo $(CURL) $@ http://master.dl.sourceforge.net/project/d-apt/files/d-apt.list
 
