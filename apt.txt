@@ -1,0 +1,5 @@
+git make curl
+code meld
+gcc d-apt-keyring dmd-compiler dmd-tools dub
+libssl-dev libevent-dev
+libsdl2-dev
