@@ -4,5 +4,6 @@
         "EditorConfig.EditorConfig",
         // D
         "webfreak.code-d",
+        "webfreak.dlang-bundle",
     ]
 }
