@@ -1,10 +1,12 @@
 {
-	"authors":      ["Dmitry Ponyatov"],
-	"name":          "d",
-	"description":   "D lang workout",
-	"copyright":     "Copyright © 2023, Dmitry Ponyatov",
-	"license":       "MIT",
-	"dependencies": {
-		"dfmt": "~>0.15.1"
-	}
+    "name": "d",
+    "description": "D lang workout",
+    "homepage":    "https://github.com/ponyatov/d",
+    "authors":    ["Dmitry Ponyatov"],
+    "copyright":   "Copyright © 2023, Dmitry Ponyatov",
+    "license":     "MIT",
+    "targetType":  "executable",
+    "dependencies": {
+        "dfmt": "~>0.15.1"
+    }
 }

@@ -1,0 +1,7 @@
+{
+	"fileVersion": 1,
+	"versions": {
+		"dfmt": "0.15.1",
+		"libdparse": "0.23.2"
+	}
+}
