@@ -1,6 +1,7 @@
 {
     "recommendations": [
         "ms-vscode.makefile-tools",
+        "EditorConfig.EditorConfig",
         // D
         "webfreak.code-d",
     ]
