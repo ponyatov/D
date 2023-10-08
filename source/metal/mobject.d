@@ -23,6 +23,7 @@ class MObject {
     }
 
     this(string V) {
+        this();
         this.value = V;
     }
 }
