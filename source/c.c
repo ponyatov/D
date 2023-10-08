@@ -1,6 +1,7 @@
 extern void D();
 
 void C() {
-  printf("C\n");
-  D();
+    printf("C\n");
+    D();
 }
+     
