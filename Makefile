@@ -76,7 +76,7 @@ update:
 /etc/apt/sources.list.d/d-apt.list:
 	sudo $(CURL) $@ http://master.dl.sourceforge.net/project/d-apt/files/d-apt.list
 
-gz: $(GZ)/$(QEMU_GZ) $(GZ)/$(MESON_GZ)
+gz:
 
 # cross
 .PHONY: src
