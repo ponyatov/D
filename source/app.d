@@ -10,6 +10,7 @@ extern (C) int main(int argc, const(char)** argv) {
     writeln(msg, '\t', (new MCmd(&nop)).head("\n\nhello = "));
     // C();
     writeln("sdl2.init = ", sdl2.init(sdl2.INIT.AUDIO | sdl2.INIT.VIDEO));
+    writeln("bitsize: ", AudioFormat.BITSIZE8|AudioFormat.SIGNED);
     sdl2.quit;
     return 0;
 }

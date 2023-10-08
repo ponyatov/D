@@ -29,7 +29,8 @@ J += $(wildcard *.json)
 
 # cfg
 DC      = dmd
-DFLAGS += -unittest -v
+DFLAGS += -unittest
+# DFLAGS += -v
 DFLAGS += -of=bin/$(MODULE) -od=tmp
 
 # package

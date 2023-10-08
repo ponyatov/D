@@ -25,3 +25,19 @@ enum INIT : uint {
     EVERYTHING = 0x00008000,
     NOPARACHUTE = 0x00100000,
 }
+
+template BITSIZE(ushort x) {
+    enum ushort BITSIZE = x & AudioFormat.MASK_BITSIZE;
+}
+
+enum AudioFormat : ushort {
+    MASK_BITSIZE = (0xFF),
+    MASK_DATATYPE = (1 << 8),
+    MASK_ENDIAN = (1 << 12),
+    MASK_SIGNED = (1 << 15),
+    BITSIZE8 = BITSIZE!8,
+    BITSIZE16 = BITSIZE!16,
+    BITSIZE1234 = BITSIZE!0x1234,
+    SIGNED = MASK_SIGNED,
+    UNSIGNED = 0
+}
