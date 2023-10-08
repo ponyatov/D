@@ -4,4 +4,3 @@ void C() {
     printf("C\n");
     D();
 }
-     

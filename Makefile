@@ -29,7 +29,7 @@ J += $(wildcard *.json)
 
 # cfg
 DC      = dmd
-DFLAGS += -unittest
+DFLAGS += -unittest -v
 DFLAGS += -of=bin/$(MODULE) -od=tmp
 
 # package
@@ -45,10 +45,12 @@ bin/$(MODULE): $(D) $(J) Makefile
 	dub build
 # $(DC) $(DFLAGS) $^
 
-doc: doc/yazyk_programmirovaniya_d.pdf
+doc: doc/yazyk_programmirovaniya_d.pdf doc/Programming_in_D.pdf
 
 doc/yazyk_programmirovaniya_d.pdf:
 	$(CURL) $@ https://www.k0d.cc/storage/books/D/yazyk_programmirovaniya_d.pdf
+doc/Programming_in_D.pdf:
+	$(CURL) $@ http://ddili.org/ders/d.en/Programming_in_D.pdf
 
 # format
 format: tmp/format_d

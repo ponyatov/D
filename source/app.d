@@ -8,12 +8,17 @@ import metal;
 extern (C) int main(int argc, const(char)** argv) {
     string msg = "Hello";
     writeln(msg, '\t', (new MCmd(&nop)).head("\n\nhello = "));
-    C();
+    // C();
+    writeln("sdl2.init = ", sdl2.init(sdl2.INIT.AUDIO | sdl2.INIT.VIDEO));
+    sdl2.quit;
     return 0;
 }
 
-extern (C) void C();
-extern (C) void D() { writeln("D"); }
+import c;
+
+extern (C) void D() {
+    // writeln("D");
+}
 
 unittest {
     assert(false);
