@@ -3,7 +3,10 @@ module metal.mprimitive;
 import metal.mobject;
 
 class MPrimitive : MObject {
-    this(string V);
+    this(string V) ;
+    // {
+    //     MObject.this(V);
+    // }
 }
 
 class MSym : MPrimitive {
