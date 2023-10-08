@@ -7,9 +7,13 @@ import metal;
 // void main() {
 extern (C) int main(int argc, const(char)** argv) {
     string msg = "Hello";
-    writeln(msg, '\t', (new MSym("Hello")).head("\n\nhello = "));
+    writeln(msg, '\t', (new MCmd(&nop)).head("\n\nhello = "));
+    C();
     return 0;
 }
+
+extern (C) void C();
+extern (C) void D() { writeln("D"); }
 
 unittest {
     assert(false);

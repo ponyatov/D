@@ -6,15 +6,13 @@ class MActive : MObject {
     this(string V) {
         super(V);
     }
-}
 
-class MVM : MActive {
-    this(string V) {
-        super(V);
+    this() {
+        super();
     }
 }
 
-class MCmd : MActive {
+class MVM : MActive {
     this(string V) {
         super(V);
     }
