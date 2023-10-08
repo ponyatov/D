@@ -11,7 +11,9 @@ CORES  ?= $(shell grep processor /proc/cpuinfo | wc -l)
 CURL = curl -L -o
 
 # src
-D += source/app.d $(filter-out source/app.d, $(wildcard source/*.d))
+D  = source/app.d \
+		$(filter-out source/app.d, \
+			$(wildcard source/*.d source/metal/*.d))
 J += $(wildcard *.json)
 
 # cfg
