@@ -10,8 +10,7 @@
     "targetName":  "D",
     "dflags-dmd":   ["-od=tmp"],
     "dependencies": {
-        "dlangui": "~>0.10.4",
-        "ffmpeg-d": "~>4.4.1",
-        "bindbc-sdl": "~>1.4.2"
+        "ffmpeg-d": "4.4.1",
+        "bindbc-sdl": "1.4.2"
     }
 }

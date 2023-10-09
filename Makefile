@@ -7,10 +7,6 @@ REL     = $(shell git rev-parse --short=4 HEAD)
 BRANCH  = $(shell git rev-parse --abbrev-ref HEAD)
 CORES  ?= $(shell grep processor /proc/cpuinfo | wc -l)
 
-# version
-QEMU_VER  = 8.1.1
-# QEMU_VER  = 8.0.5
-# QEMU_VER  = 7.2.6
 # dir
 CWD = $(CURDIR)
 BIN = $(CWD)/bin
@@ -83,30 +79,9 @@ tmp/d-apt.list:
 
 gz:
 
-# cross
-.PHONY: src
-src: $(SRC)/$(QEMU)/configure
-
-$(GZ)/$(QEMU_GZ):
-	$(CURL) $@ https://download.qemu.org/$(QEMU_GZ)
-
-QEMU_TARGET += arm-softmmu
-# QEMU_TARGET += i386-softmmu
-# QEMU_TARGET += avr-softmmu
-QEMU_CFG += --prefix=$(BIN)/$(QEMU) --disable-kvm
-QEMU_CFG += --target-list="$(QEMU_TARGET)"
-
-.PHONY: qemu
-qemu: $(BIN)/$(QEMU)/bin/qemu-system-arm
-
-$(BIN)/$(QEMU)/bin/qemu-system-arm: $(SRC)/$(QEMU)/configure
-	mkdir $(TMP)/qemu ; cd $(TMP)/qemu ;\
-	$< $(QEMU_CFG)
-
 # merge
 
 .PHONY: release
 release:
 	git tag $(NOW)-$(REL)
 	git push -v --tags
-
