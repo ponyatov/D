@@ -15,7 +15,10 @@ extern (C) int main(int argc, const(char)** argv) {
     // C();
     writeln("sdl2.init = ", sdl2.init(sdl2.INIT.AUDIO | sdl2.INIT.VIDEO));
     writeln("bitsize: ", AudioFormat.BITSIZE8 | AudioFormat.SIGNED);
-    writeln("iota:\t", 10.iota.map!"a+1".map!(a=>"media%.2d".format(a)).chunks(3));
+    writeln("iota:\t", 10.iota
+            .map!"a+1"
+            .map!(a => "media%.2d".format(a))
+            .chunks(3));
     sdl2.quit;
     return 0;
 }

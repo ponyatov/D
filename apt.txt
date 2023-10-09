@@ -1,7 +1,8 @@
 git make curl
 code meld
-gcc d-apt-keyring dmd-compiler dmd-tools dub
+d-apt-keyring dmd-compiler dmd-tools dub g++
 libssl-dev libevent-dev
+libreadline-dev flex bison
 libsdl2-dev
 libavcodec-dev libavformat-dev libavdevice-dev libavutil-dev
 python3

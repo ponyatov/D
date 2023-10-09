@@ -67,16 +67,18 @@ $(SRC)/%/README.md: $(GZ)/%.tar.gz
 	cd src ; zcat $< | tar x &&               touch $@
 
 # install
+ETC_APT = /etc/apt/sources.list.d/d-apt.list
 .PHONY: install update gz
-install: doc gz /etc/apt/sources.list.d/d-apt.list
-	sudo apt --allow-unauthenticated install -yu d-apt-keyring
+install: doc gz $(ETC_APT)
 	$(MAKE) update
 	dub fetch dfmt
-	sudo pip3 install meson
 update:
-# sudo apt update
+	sudo apt update
 	sudo apt install -yu `cat apt.txt`
-/etc/apt/sources.list.d/d-apt.list:
+$(ETC_APT): tmp/d-apt.list
+	sudo cp $< $@ ; sudo apt update &&\
+	sudo apt --allow-unauthenticated install -yu d-apt-keyring
+tmp/d-apt.list:
 	sudo $(CURL) $@ http://master.dl.sourceforge.net/project/d-apt/files/d-apt.list
 
 gz:
