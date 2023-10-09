@@ -16,21 +16,21 @@ mixin APP_ENTRY_POINT;
 extern (C) int UIAppMain(string[] args) {
     foreach (i, arg; args.enumerate)
         writefln("argv[%s] = <%s>", i, arg);
-    auto wMain = Platform.instance.createWindow(to!dstring(args[0]),
-            null, WindowFlag.Resizable, 240, 320);
+    auto wMain = Platform.instance.createWindow(to!dstring(args[0]),null);
     Platform.instance.uiTheme = "theme_dark";
     wMain.backgroundColor = 0x222222;
     //
     auto layout = parseML(q{
         VerticalLayout {
+			id: v
             Button { id: hello; text: "Hello" }
             Button { id: world; text: "World" }
             TextWidget { id: log; text: "log"; backgroundColor: 0x777777 }
         }
     });
-    // wMain.mainWidget = layout;
+    wMain.mainWidget = layout;
     //
-    layout.childById("hello").click = delegate(Widget src) {
+    layout.v.hello.click = delegate(Widget src) {
         layout.childById("log").text = src.text;
         return true;
     };
@@ -38,11 +38,6 @@ extern (C) int UIAppMain(string[] args) {
         layout.childById("log").text = src.text;
         return true;
     };
-    // 
-    auto grid = new StringGridWidget;
-    grid.resize(3, 3);
-    layout.addChild(grid);
-    wMain.mainWidget = grid;
     //
     wMain.show();
     return Platform.instance.enterMessageLoop();
