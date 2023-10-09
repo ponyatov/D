@@ -9,7 +9,8 @@ CORES  ?= $(shell grep processor /proc/cpuinfo | wc -l)
 
 # version
 # LDC_VER = 1.34.0 debian 12 libc 2.29
-LDC_VER = 1.33.0
+# LDC_VER = 1.33.0 2.29 since 1.32.1
+LDC_VER = 1.32.0
 
 # dir
 CWD = $(CURDIR)
