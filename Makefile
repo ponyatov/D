@@ -15,9 +15,14 @@ LDC_VER = 1.32.0
 # dir
 CWD = $(CURDIR)
 BIN = $(CWD)/bin
-TMP = $(CWD)/tmp
 SRC = $(CWD)/src
+TMP = $(CWD)/tmp
 GZ  = $(HOME)/gz
+
+# package
+LDC    = ldc2-$(LDC_VER)
+LDC_OS = $(LDC)-linux-x86_64
+LDC_GZ = $(LDC_OS).tar.xz
 
 # tool
 CURL = curl -L -o
@@ -35,11 +40,6 @@ DC      = dmd
 DFLAGS += -unittest
 # DFLAGS += -v
 DFLAGS += -of=bin/$(MODULE) -od=tmp
-
-# package
-LDC    = ldc2-$(LDC_VER)
-LDC_OS = $(LDC)-linux-x86_64
-LDC_GZ = $(LDC_OS).tar.xz
 
 # all
 .PHONY: all
@@ -109,6 +109,10 @@ $(LDC2): $(GZ)/$(LDC_GZ)
 
 $(GZ)/$(LDC_GZ):
 	$(CURL) $@ https://github.com/ldc-developers/ldc/releases/download/v$(LDC_VER)/$(LDC_GZ)
+
+.PHONY: os
+os:
+	make -C $@
 
 .PHONY: src
 src:refs/Zardoz89/dub.json
