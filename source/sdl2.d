@@ -37,7 +37,6 @@ enum AudioFormat : ushort {
     MASK_SIGNED = (1 << 15),
     BITSIZE8 = BITSIZE!8,
     BITSIZE16 = BITSIZE!16,
-    BITSIZE1234 = BITSIZE!0x1234,
     SIGNED = MASK_SIGNED,
     UNSIGNED = 0
 }
