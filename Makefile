@@ -79,6 +79,12 @@ tmp/d-apt.list:
 
 gz:
 
+.PHONY: src
+src:refs/Zardoz89/dub.json
+
+refs/Zardoz89/dub.json:
+	git clone https://github.com/Zardoz89/dlang-bindbc-sdl-opengl-example.git src/Zardoz89
+
 # merge
 
 .PHONY: release
