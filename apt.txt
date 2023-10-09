@@ -6,3 +6,4 @@ libreadline-dev flex bison
 libsdl2-dev
 libavcodec-dev libavformat-dev libavdevice-dev libavutil-dev
 python3
+llvm-16

@@ -69,17 +69,18 @@ $(SRC)/%/README.md: $(GZ)/%.tar.gz
 	cd src ; zcat $< | tar x &&               touch $@
 
 # install
-ETC_APT = /etc/apt/sources.list.d/d-apt.list
+APT_SRC = /etc/apt/sources.list.d
+ETC_APT = $(APT_SRC)/d-apt.list $(APT_SRC)/llvm.list
 .PHONY: install update gz
 install: doc gz $(ETC_APT)
+	sudo apt update && sudo apt --allow-unauthenticated install -yu d-apt-keyring
 	$(MAKE) update
 	dub fetch dfmt
 update:
 	sudo apt update
 	sudo apt install -yu `cat apt.txt`
-$(ETC_APT): tmp/d-apt.list
-	sudo cp $< $@ ; sudo apt update &&\
-	sudo apt --allow-unauthenticated install -yu d-apt-keyring
+$(APT_SRC)/%: tmp/%
+	sudo cp $< $@
 tmp/d-apt.list:
 	sudo $(CURL) $@ http://master.dl.sourceforge.net/project/d-apt/files/d-apt.list
 

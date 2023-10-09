@@ -28,7 +28,7 @@ extern (C) int UIAppMain(string[] args) {
             TextWidget { id: log; text: "log"; backgroundColor: 0x777777 }
         }
     });
-    wMain.mainWidget = layout;
+    // wMain.mainWidget = layout;
     //
     layout.childById("hello").click = delegate(Widget src) {
         layout.childById("log").text = src.text;
@@ -38,6 +38,11 @@ extern (C) int UIAppMain(string[] args) {
         layout.childById("log").text = src.text;
         return true;
     };
+    // 
+    auto grid = new StringGridWidget;
+    grid.resize(3, 3);
+    layout.addChild(grid);
+    wMain.mainWidget = grid;
     //
     wMain.show();
     return Platform.instance.enterMessageLoop();
