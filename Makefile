@@ -36,7 +36,8 @@ QEMU_GZ  = $(QEMU).tar.xz
 # all
 .PHONY: all
 all: $(D)
-	rdmd $(DFLAGS) $<
+	dub run
+# rdmd $(DFLAGS) $<
 
 bin/$(MODULE): $(D) $(J) Makefile
 	dub build
