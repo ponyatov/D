@@ -112,10 +112,10 @@ $(GZ)/$(LDC_GZ):
 
 .PHONY: os
 os:
-	make -C $@
+	make -C $@ gz all
 
 .PHONY: src
-src:refs/Zardoz89/dub.json
+src: refs/Zardoz89/dub.json
 
 refs/Zardoz89/dub.json:
 	git clone https://github.com/Zardoz89/dlang-bindbc-sdl-opengl-example.git src/Zardoz89
