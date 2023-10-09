@@ -27,6 +27,7 @@ LDC2 = $(CWD)/ldc/$(LDC_OS)/bin/ldc2
 D  = source/app.d \
 		$(filter-out source/app.d, \
 			$(wildcard source/*.d source/metal/*.d))
+D += $(wildcard wasm/*.d)
 J += $(wildcard *.json)
 
 # cfg
@@ -93,9 +94,16 @@ tmp/d-apt.list:
 
 gz: $(GZ)/$(LDC_GZ)
 
+WASM_FLAGS += -mtriple=wasm32-unknown-unknown-wasm
+WASM_FLAGS += --betterC
 .PHONY: ldc
-ldc: $(LDC2)
-	$(LDC2)
+ldc: wasm/add.ll
+wasm/%.wat: wasm/%.wasm
+	wasm2wat $< -o $@
+wasm/%.wasm: wasm/%.d $(LDC2)
+	$(LDC2) $(WASM_FLAGS) -c $< --of=$@ && file $@
+wasm/%.ll: wasm/%.d $(LDC2)
+	$(LDC2) $(WASM_FLAGS) -c $< --output-ll --of=$@ && file $@
 $(LDC2): $(GZ)/$(LDC_GZ)
 	cd ldc ; xzcat $< | tar x && touch $@
 

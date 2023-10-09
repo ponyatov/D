@@ -16,7 +16,7 @@ mixin APP_ENTRY_POINT;
 extern (C) int UIAppMain(string[] args) {
     foreach (i, arg; args.enumerate)
         writefln("argv[%s] = <%s>", i, arg);
-    auto wMain = Platform.instance.createWindow(to!dstring(args[0]),null);
+    auto wMain = Platform.instance.createWindow(to!dstring(args[0]), null);
     Platform.instance.uiTheme = "theme_dark";
     wMain.backgroundColor = 0x222222;
     //
