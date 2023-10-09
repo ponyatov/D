@@ -43,12 +43,17 @@ bin/$(MODULE): $(D) $(J) Makefile
 	dub build
 # $(DC) $(DFLAGS) $^
 
-doc: doc/yazyk_programmirovaniya_d.pdf doc/Programming_in_D.pdf
+doc: doc/yazyk_programmirovaniya_d.pdf doc/Programming_in_D.pdf \
+	 doc/d-readthedocs-io-en-latest.pdf doc/BuildWebAppsinVibe.pdf
 
 doc/yazyk_programmirovaniya_d.pdf:
 	$(CURL) $@ https://www.k0d.cc/storage/books/D/yazyk_programmirovaniya_d.pdf
 doc/Programming_in_D.pdf:
 	$(CURL) $@ http://ddili.org/ders/d.en/Programming_in_D.pdf
+doc/d-readthedocs-io-en-latest.pdf:
+	$(CURL) $@ https://github.com/ponyatov/D/releases/download/071023-5009/d-readthedocs-io-en-latest.pdf
+doc/BuildWebAppsinVibe.pdf:
+	$(CURL) $@ https://raw.githubusercontent.com/reyvaleza/vibed/main/BuildWebAppsinVibe.pdf
 
 # format
 format: tmp/format_d
