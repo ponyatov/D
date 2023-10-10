@@ -1,0 +1,14 @@
+{
+    "name":        "player",
+    "description": "media player",
+    "homepage":    "https://github.com/ponyatov/d",
+    "authors":    ["Dmitry Ponyatov"],
+    "copyright":   "Copyright © 2023, Dmitry Ponyatov",
+    "license":     "MIT",
+    "targetType":  "executable",
+    "targetPath":  "bin",
+    "targetName":  "D",
+    "dflags-dmd":   ["-od=tmp"],
+    "dependencies": {
+    }
+}

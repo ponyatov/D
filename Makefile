@@ -120,6 +120,11 @@ src: refs/Zardoz89/dub.json
 refs/Zardoz89/dub.json:
 	git clone https://github.com/Zardoz89/dlang-bindbc-sdl-opengl-example.git src/Zardoz89
 
+
+.PHONY: player
+player:
+	$(MAKE) -C $@
+
 # merge
 
 .PHONY: release
