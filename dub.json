@@ -9,9 +9,10 @@
     "targetPath":  "bin",
     "targetName":  "D",
     "dflags-dmd":   ["-od=tmp"],
+    "subPackages":  ["player"],
     "dependencies": {
-        "ffmpeg-d": "4.4.1",
-        "bindbc-sdl": "1.4.2",
+        "ffmpeg-d": "~>4.4.1",
+		"bindbc-sdl": "~>1.4.2",
         "dlangui": "0.10.4"
     }
 }

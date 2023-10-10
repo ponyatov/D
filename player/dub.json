@@ -1,14 +1,22 @@
 {
     "name":        "player",
     "description": "media player",
-    "homepage":    "https://github.com/ponyatov/d",
+    "homepage":    "https://github.com/ponyatov/D/tree/shadow/player",
     "authors":    ["Dmitry Ponyatov"],
     "copyright":   "Copyright © 2023, Dmitry Ponyatov",
     "license":     "MIT",
     "targetType":  "executable",
     "targetPath":  "bin",
-    "targetName":  "D",
+    "targetName":  "player",
     "dflags-dmd":   ["-od=tmp"],
+    "systemDependencies-linux" : "libsdl2-dev libavcodec-dev libavformat-dev libavdevice-dev libavutil-dev",
+    "toolchainRequirements": {
+        "dub"       : "~>1.34.0",
+        "dmd"       : "~>2.105.0",
+        "frontend"  : ">=2.102"
+    },
     "dependencies": {
+		"bindbc-sdl": "~>1.4.2",
+        "ffmpeg-d"  : "~>4.4.1"
     }
 }

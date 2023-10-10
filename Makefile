@@ -33,6 +33,7 @@ D  = source/app.d \
 		$(filter-out source/app.d, \
 			$(wildcard source/*.d source/metal/*.d))
 D += $(wildcard wasm/*.d)
+D += $(wildcard player/src/*.d)
 J += $(wildcard *.json)
 
 # cfg
@@ -115,15 +116,13 @@ os:
 	make -C $@ gz all
 
 .PHONY: src
-src: refs/Zardoz89/dub.json
+src:
 
-refs/Zardoz89/dub.json:
-	git clone https://github.com/Zardoz89/dlang-bindbc-sdl-opengl-example.git src/Zardoz89
-
-
+MP3 = ~/fx/media/dwsample1.mp3
 .PHONY: player
 player:
-	$(MAKE) -C $@
+	dub run :$@ -- $(MP3)
+#	$(MAKE) -C $@
 
 # merge
 

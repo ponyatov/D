@@ -30,7 +30,7 @@ extern (C) int UIAppMain(string[] args) {
     });
     wMain.mainWidget = layout;
     //
-    layout.v.hello.click = delegate(Widget src) {
+    layout.childById("hello").click = delegate(Widget src) {
         layout.childById("log").text = src.text;
         return true;
     };
