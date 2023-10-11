@@ -9,14 +9,22 @@ import bindbc.sdl;
 
 // import bindbc.sdl_image;
 
+auto mp3 = import("~/fx/media/dwsample1.mp3");
+
 class AuDev {
     int id;
     string name;
     this(int id) {
         this.id = id;
-        const(char *)zname = SDL_GetAudioDeviceName(id, false);
-        assert(zname !is null);
-        this.name = zname.fromStringz;//to!string(zname);
+        const char* _ = SDL_GetAudioDeviceName(id, false);
+        assert(_ !is null);
+        this.name = to!string(_);
+        writeln(this);
+    }
+
+    override string toString() {
+        return "<" ~ typeof(this).stringof ~ "|" ~ to!string(
+                id) ~ ":" ~ name ~ ">";
     }
 }
 
@@ -39,7 +47,7 @@ int main(string[] args) {
     const auto auDevs = SDL_GetNumAudioDevices(false);
     assert(auDevs);
     foreach (i; auDevs.iota)
-        audev[i] = new AuDev(i);
+        audev ~= new AuDev(i);
     //
     const winFlags = !SDL_WINDOW_RESIZABLE | SDL_WINDOW_SHOWN;
     const W = 240;
