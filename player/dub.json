@@ -20,7 +20,7 @@
         "ffmpeg-d"  : "~>4.4.1"
     },
     "subConfigurations": {
-        "bindbc-sdl": "dynamic"
+        "bindbc-sdl": "static"
     },
     "versions": [
         "SDL_204",
