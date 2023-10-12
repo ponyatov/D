@@ -3,7 +3,7 @@ code meld
 d-apt-keyring dmd-compiler dmd-tools dub g++
 libssl-dev libevent-dev
 libreadline-dev flex bison
-libsdl2-dev libsdl2-image-dev
+libsdl2-dev libsdl2-image-dev libsdl2-image-dev libsdl2-mixer-dev
 libavcodec-dev libavformat-dev libavdevice-dev libavutil-dev
 python3
 llvm-15 libclang-15-dev wabt

@@ -14,7 +14,7 @@
         "dmd"       : "~>2.105.0",
         "frontend"  : ">=2.102"
     },
-    "systemDependencies" : "libsdl2-dev libavcodec-dev libavformat-dev libavdevice-dev libavutil-dev",
+    "systemDependencies" : "libsdl2-dev libsdl2-mixer-dev libsdl2-image-dev libsdl2-ttf-dev libavcodec-dev libavformat-dev libavdevice-dev libavutil-dev",
     "dependencies": {
         "bindbc-sdl":    { "path" : "$HOME/D/ref/bindbc-sdl"    },
         "bindbc-loader": { "path" : "$HOME/D/ref/bindbc-loader" }
@@ -25,10 +25,12 @@
     "versions": [
         "SDL_200",
         "BindSDL_Image",
-        "SDL_Image_200"
+        "SDL_Image_200",
+        "SDL_Mixer_200",
+        "SDL_TTF_2012"
     ],
     "libs": [
-        "SDL2", "SDL2_image"
+        "SDL2", "SDL2_image", "SDL2_mixer"
     ],
     "copyFiles": ["../../fx/media"]
 }

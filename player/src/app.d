@@ -7,6 +7,7 @@ import std.conv;
 
 import bindbc.sdl;
 import sdl.audio;
+import sdl_mixer;
 
 // import bindbc.sdl_image;
 
@@ -37,9 +38,9 @@ class AuDev {
     int id;
     string name;
     AudioFormat format;
-    this(int id) {
+    this(int id, bool iscapture) {
         this.id = id;
-        const char* namez = SDL_GetAudioDeviceName(id, false);
+        const char* namez = SDL_GetAudioDeviceName(id, iscapture);
         assert(namez !is null);
         this.name = to!string(namez);
         writeln(this);
@@ -67,7 +68,7 @@ enum Video {
 
 class AuPlay : AuDev {
     this(int id) {
-        super(id);
+        super(id, false);
     }
 
     ~this() {
@@ -92,7 +93,7 @@ class AuPlay : AuDev {
         }
     }
 
-    void open() {
+    void open(bool master = true) {
         // 
         SDL_AudioSpec desired, obtained;
         SDL_zero(&desired);
@@ -101,8 +102,8 @@ class AuPlay : AuDev {
         desired.format = Audio.sdl_format;
         desired.channels = Audio.channels;
         //
-        id = SDL_OpenAudioDevice(name.toStringz, false,
-                &desired, &obtained, 0); // SDL_AUDIO_ALLOW_ANY_CHANGE);
+        id = SDL_OpenAudioDevice(master ? null : name.toStringz,
+                false, &desired, &obtained, 0); // SDL_AUDIO_ALLOW_ANY_CHANGE);
         if (id <= 0) {
             writefln("\n\n%s\t%s", this, SDL_GetError.fromStringz);
             abort();
@@ -118,7 +119,7 @@ class AuPlay : AuDev {
 
 class AuRec : AuDev {
     this(int id) {
-        super(id);
+        super(id, true);
     }
 
     override string tag() const {
@@ -169,6 +170,11 @@ int main(string[] args) {
     }
     scope (exit)
         SDL_DestroyWindow(wMain);
+    //
+    assert(args.length >= 1);
+    writeln(args[1]);
+    const auto mixer_flags = MIX_INIT_MP3;
+    assert(mixer_flags == Mix_Init(mixer_flags));
     // 
     bool quit = false;
     SDL_Event event;
