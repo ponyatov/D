@@ -66,6 +66,56 @@ enum Video {
     H = 240
 }
 
+class PlayList {
+    MediaFile[] pl;
+    MediaFile current = null;
+
+    void add(string filename) {
+        if (filename.endsWith(".mp3")) {
+            pl ~= new MP3(filename);
+        } else
+            abort();
+    }
+
+    void play() {
+        if (pl.length == 0)
+            return;
+        if (current is null)
+            current = pl[0];
+        current.play();
+    }
+}
+
+class MediaFile {
+    string filename;
+
+    this(string filename) {
+        this.filename = filename;
+    }
+
+    void play() {
+        abort();
+    }
+}
+
+class MP3 : MediaFile {
+    Mix_Music* music;
+    this(string filename) {
+        super(filename);
+        music = Mix_LoadMUS(filename.toStringz);
+        assert(music !is null);
+    }
+
+    ~this() {
+        if (music !is null)
+            Mix_FreeMusic(music);
+    }
+
+    override void play() {
+        Mix_PlayMusic(music, 1);
+    }
+}
+
 class AuPlay : AuDev {
     this(int id) {
         super(id, false);
@@ -129,6 +179,7 @@ class AuRec : AuDev {
 
 __gshared AuPlay[] auplay;
 __gshared AuRec[] aurec;
+__gshared auto playlist = new PlayList();
 
 int main(string[] args) {
     foreach (argc, argv; args.enumerate)
@@ -171,14 +222,20 @@ int main(string[] args) {
     scope (exit)
         SDL_DestroyWindow(wMain);
     //
-    assert(args.length >= 1);
-    writeln(args[1]);
     const auto mixer_flags = MIX_INIT_MP3;
     assert(mixer_flags == Mix_Init(mixer_flags));
+    auto f = auplay[0].format;
+    assert(Mix_OpenAudio(f.freq, f.sdl_format, f.channels, 0) == 0);
+    // Mix_OpenAudioDevice(f.freq,f.sdl_format,f.channels,0,auplay[0].name.toStringz,false);
+    assert(args.length >= 1);
+    foreach (file; args[1 .. $])
+        playlist.add(file);
+    playlist.play();
     // 
     bool quit = false;
     SDL_Event event;
     while (!quit) {
+        SDL_Delay(250);
         SDL_PumpEvents();
         while (SDL_PollEvent(&event)) {
             switch (event.type) {
@@ -186,7 +243,6 @@ int main(string[] args) {
             case SDL_KEYDOWN:
             case SDL_MOUSEBUTTONDOWN:
                 quit = true;
-                // auplay[0].close();
                 break;
             default:
             }
