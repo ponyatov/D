@@ -8,16 +8,22 @@
     "targetType":  "executable",
     "targetPath":  "bin",
     "targetName":  "player",
-    "dflags-dmd":   ["-od=tmp"],
-    "systemDependencies-linux" : "libsdl2-dev libavcodec-dev libavformat-dev libavdevice-dev libavutil-dev",
+    "dflags-dmd":   ["-od=$PACKAGE_DIR/tmp","-J=$HOME/fx"],
     "toolchainRequirements": {
         "dub"       : "~>1.34.0",
         "dmd"       : "~>2.105.0",
         "frontend"  : ">=2.102"
     },
+    "systemDependencies-linux" : [
+        "libsdl2-dev",
+        "libavcodec-dev",
+        "libavformat-dev",
+        "libavdevice-dev",
+        "libavutil-dev"
+    ],
     "dependencies": {
-		"bindbc-sdl": "~>1.4.2",
-        "ffmpeg-d"  : "~>4.4.1"
+        "bindbc-sdl":    { "path" : "$(HOME)/D/ref/bindbc-sdl"    },
+        "bindbc-loader": { "path" : "$(HOME)/D/ref/bindbc-loader" }
     },
     "subConfigurations": {
         "bindbc-sdl": "static"
@@ -29,5 +35,6 @@
     ],
     "libs": [
         "SDL2", "SDL2_image"
-    ]
+    ],
+    "copyFiles": ["../../fx/media"]
 }
