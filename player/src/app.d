@@ -12,17 +12,36 @@ import sdl.audio;
 
 auto mp3 = import("media/dwsample1.mp3");
 
+enum int FREQ_11025 = 11_025, FREQ_22050 = 22_050,
+        FREQ_41800 = 41_800, FREQ_48000 = 48_000;
+
+class AudioFormat {
+    SDL_AudioFormat sdl_format = Audio.sdl_format;
+    int freq = Audio.freq;
+    ubyte channels = Audio.channels;
+
+    this(int freq = Audio.freq, SDL_AudioFormat sdl_format = Audio.sdl_format,
+            ubyte channels = Audio.channels) {
+        this.freq = freq;
+        this.sdl_format = sdl_format;
+        this.channels = channels;
+    }
+
+    override string toString() const {
+        return "%s%s%sx%s".format(freq, SDL_AUDIO_ISSIGNED(sdl_format)
+                ? 's' : 'u', SDL_AUDIO_BITSIZE(sdl_format), channels);
+    }
+}
+
 class AuDev {
     int id;
     string name;
-    int freq = Audio.freq;
-    SDL_AudioFormat format = Audio.format;
-    ubyte channels = Audio.channels;
+    AudioFormat format;
     this(int id) {
         this.id = id;
-        const char* _ = SDL_GetAudioDeviceName(id, false);
-        assert(_ !is null);
-        this.name = to!string(_);
+        const char* namez = SDL_GetAudioDeviceName(id, false);
+        assert(namez !is null);
+        this.name = to!string(namez);
         writeln(this);
     }
 
@@ -31,22 +50,36 @@ class AuDev {
     }
 
     override string toString() const {
-        return "<%s|%s:%s> freq:%s ch:%s format:%s%s".format(tag,
-                id, name, freq, channels,
-                SDL_AUDIO_ISSIGNED(format) ? 's' : 'u',
-                SDL_AUDIO_BITSIZE(format));
+        return "<%s|%s:%s> %s".format(tag, id, name, format);
     }
 }
 
 enum Audio {
-    freq = 22_050,
-    format = AUDIO_S8,
+    freq = FREQ_22050,
+    sdl_format = AUDIO_S8,
     channels = 1
+}
+
+enum Video {
+    W = 320,
+    H = 240
 }
 
 class AuPlay : AuDev {
     this(int id) {
         super(id);
+    }
+
+    ~this() {
+        close();
+    }
+
+    void close() {
+        if (format !is null) {
+            SDL_CloseAudioDevice(id);
+            format = null;
+            writeln("\n\n", this, "\tclosed\t", id);
+        }
     }
 
     override string tag() const {
@@ -59,31 +92,27 @@ class AuPlay : AuDev {
         }
     }
 
-    void open(int freq = Audio.freq, SDL_AudioFormat format = Audio.format,
-            ubyte channels = Audio.channels) {
-    }
-
-    void play(string filename = "~/fx/media/dwsample1.mp3") {
+    void open() {
+        // 
         SDL_AudioSpec desired, obtained;
         SDL_zero(&desired);
         SDL_zero(&obtained);
         desired.freq = Audio.freq;
-        desired.format = Audio.format;
+        desired.format = Audio.sdl_format;
         desired.channels = Audio.channels;
         //
-        AuPlay dev = auplay[0];
-        dev.id = SDL_OpenAudioDevice(dev.name.toStringz, false,
-                &desired, &obtained, SDL_AUDIO_ALLOW_ANY_CHANGE);
-        if (dev.id <= 0) {
-            writefln("%s\t%s", dev.toString, SDL_GetError);
+        id = SDL_OpenAudioDevice(name.toStringz, false,
+                &desired, &obtained, 0); // SDL_AUDIO_ALLOW_ANY_CHANGE);
+        if (id <= 0) {
+            writefln("\n\n%s\t%s", this, SDL_GetError.fromStringz);
             abort();
         }
-        assert(desired.freq == obtained.freq);
-        dev.freq = obtained.freq;
-        assert(desired.format == obtained.format);
-        dev.format = obtained.format;
-        assert(desired.channels == obtained.channels);
-        dev.channels = obtained.channels;
+        format = new AudioFormat(obtained.freq,
+                obtained.format, obtained.channels);
+        writeln(this);
+    }
+
+    void play(string filename = "~/fx/media/dwsample1.mp3") {
     }
 }
 
@@ -124,10 +153,14 @@ int main(string[] args) {
     assert(auIns);
     foreach (i; auIns.iota)
         aurec ~= new AuRec(i);
+    // 
+    auplay[0].open();
+    scope (exit)
+        auplay[0].close();
     //
     const winFlags = !SDL_WINDOW_RESIZABLE | SDL_WINDOW_SHOWN;
-    const W = 240;
-    const H = 320;
+    const W = Video.W;
+    const H = Video.H;
     auto wMain = SDL_CreateWindow(args[0].toStringz,
             SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, W, H, winFlags);
     if (!wMain) {
@@ -139,13 +172,15 @@ int main(string[] args) {
     // 
     bool quit = false;
     SDL_Event event;
-    while (!quit & false) {
+    while (!quit) {
         SDL_PumpEvents();
         while (SDL_PollEvent(&event)) {
             switch (event.type) {
             case SDL_QUIT:
             case SDL_KEYDOWN:
+            case SDL_MOUSEBUTTONDOWN:
                 quit = true;
+                // auplay[0].close();
                 break;
             default:
             }
