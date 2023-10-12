@@ -1,5 +1,6 @@
 # var
-MP3 = ~/fx/media/dwsample1.mp3
+MP3 += ~/fx/media/dwsample1.mp3
+MP4 += ~/media/video/park.mp4 ~/media/video/tubes.mp4
 
 # cfg
 DFLAGS += -J=$(HOME)/fx
@@ -7,7 +8,7 @@ DFLAGS += -J=$(HOME)/fx
 # all
 .PHONY: all
 all: src
-	dub $(DFLAGS) run -- $(MP3)
+	dub $(DFLAGS) run -- $(MP3) $(MP4)
 
 # install
 .PHONY: src

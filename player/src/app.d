@@ -73,8 +73,12 @@ class PlayList {
     void add(string filename) {
         if (filename.endsWith(".mp3")) {
             pl ~= new MP3(filename);
-        } else
+        } else if (filename.endsWith(".mp4")) {
+            pl ~= new MP4(filename);
+        } else {
+            writeln("unknown format\t", filename);
             abort();
+        }
     }
 
     void play() {
@@ -94,6 +98,14 @@ class MediaFile {
     }
 
     void play() {
+        abort();
+    }
+}
+
+class MP4 : MediaFile {
+    this(string filename) {
+        super(filename);
+        writeln(__FILE__,':',__LINE__,"\tMediaFile");
         abort();
     }
 }

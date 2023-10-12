@@ -118,10 +118,11 @@ os:
 .PHONY: src
 src:
 
-MP3 = ~/fx/media/dwsample1.mp3
+MP3 += ~/fx/media/dwsample1.mp3
+MP4 += ~/media/video/park.mp4 ~/media/video/tubes.mp4
 .PHONY: player
 player:
-	dub run :$@ -- $(MP3)
+	dub run :$@ -- $(MP3) $(MP4)
 
 CLANG_11 = libclang-11.so.1
 CLANG_DIR = /usr/lib/x86_64-linux-gnu
