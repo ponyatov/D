@@ -135,12 +135,12 @@ $(CLANG_DIR)/libclang.so: $(CLANG_DIR)/$(CLANG_11)
 # ref
 
 .PHONY: ref
-ref: ref/bindbc-sdl/README.md ref/bindbc-loader/README.md
+ref: ref/bindbc-sdl ref/bindbc-loader
 
-ref/bindbc-sdl/README.md:
-	git clone --depth 1 https://github.com/BindBC/bindbc-sdl.git ref/bindbc-sdl
-ref/bindbc-loader/README.md:
-	git clone --depth 1 https://github.com/BindBC/bindbc-loader.git ref/bindbc-loader
+ref/bindbc-sdl:
+	git clone --depth 1 https://github.com/BindBC/bindbc-sdl.git $@
+ref/bindbc-loader:
+	git clone --depth 1 https://github.com/BindBC/bindbc-loader.git $@
 
 # merge
 

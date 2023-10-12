@@ -14,16 +14,10 @@
         "dmd"       : "~>2.105.0",
         "frontend"  : ">=2.102"
     },
-    "systemDependencies-linux" : [
-        "libsdl2-dev",
-        "libavcodec-dev",
-        "libavformat-dev",
-        "libavdevice-dev",
-        "libavutil-dev"
-    ],
+    "systemDependencies" : "libsdl2-dev libavcodec-dev libavformat-dev libavdevice-dev libavutil-dev",
     "dependencies": {
-        "bindbc-sdl":    { "path" : "$(HOME)/D/ref/bindbc-sdl"    },
-        "bindbc-loader": { "path" : "$(HOME)/D/ref/bindbc-loader" }
+        "bindbc-sdl":    { "path" : "$HOME/D/ref/bindbc-sdl"    },
+        "bindbc-loader": { "path" : "$HOME/D/ref/bindbc-loader" }
     },
     "subConfigurations": {
         "bindbc-sdl": "static"

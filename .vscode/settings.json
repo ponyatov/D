@@ -39,5 +39,15 @@
     // clang-format
     "clang-format.executable":     "clang-format",
     "clang-format.fallbackStyle":  "Google",
-    "clang-format.style":          "file",
+    "clang-format.style": "file",
+
+    // D
+    "d.projectImportPaths": [
+        "${userHome}/D/ref",
+        "${userHome}/.dub/packages"
+    ],
+    "d.dubPath": "/usr/bin/dub",
+    "d.dmdPath": "/usr/bin/dmd",
+    "d.dubCompiler": "/usr/bin/dub",
+    "d.toolchainRequirements.dub": "1.34.0"
 }
