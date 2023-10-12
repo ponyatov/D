@@ -9,7 +9,7 @@ import bindbc.sdl;
 
 // import bindbc.sdl_image;
 
-auto mp3 = import("~/fx/media/dwsample1.mp3");
+auto mp3 = import("media/dwsample1.mp3");
 
 class AuDev {
     int id;
@@ -22,9 +22,8 @@ class AuDev {
         writeln(this);
     }
 
-    override string toString() {
-        return "<" ~ typeof(this).stringof ~ "|" ~ to!string(
-                id) ~ ":" ~ name ~ ">";
+    override string toString() const pure @safe {
+        return "<%s|%s:%s>".format(typeof(this).stringof, id, name);
     }
 }
 
@@ -34,8 +33,12 @@ int main(string[] args) {
     foreach (argc, argv; args.enumerate)
         writefln("arg[%d] = <%s>", argc, argv);
     // dyn load: dub.json "bindbc-sdl": "dynamic"
-    // assert(loadSDL() == sdlSupport);
-    // assert(loadSDLImage() == sdlImageSupport);
+    static if (!bindbc.sdl.staticBinding) {
+        writeln("dynamic");
+        assert(loadSDL() == sdlSupport);
+        assert(loadSDLImage() == sdlImageSupport);
+    } else
+        writeln("static");
     // init
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
         writeln("SDL_Init: ", SDL_GetError());

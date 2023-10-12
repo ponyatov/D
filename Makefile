@@ -39,7 +39,7 @@ J += $(wildcard *.json)
 # cfg
 DC      = dmd
 DFLAGS += -unittest
-# DFLAGS += -v
+DFLAGS += -v
 DFLAGS += -of=bin/$(MODULE) -od=tmp
 
 # all
@@ -122,7 +122,25 @@ MP3 = ~/fx/media/dwsample1.mp3
 .PHONY: player
 player:
 	dub run :$@ -- $(MP3)
-#	$(MAKE) -C $@
+
+CLANG_11 = libclang-11.so.1
+CLANG_DIR = /usr/lib/x86_64-linux-gnu
+.PHONY: dpp
+dpp: $(CLANG_DIR)/libclang.so
+	dub build $@
+$(CLANG_DIR)/libclang.so: $(CLANG_DIR)/$(CLANG_11)
+	sudo ln -s $< $@
+	sudo apt install -yu libclang-11-dev
+
+# ref
+
+.PHONY: ref
+ref: ref/bindbc-sdl/README.md ref/bindbc-loader/README.md
+
+ref/bindbc-sdl/README.md:
+	git clone --depth 1 https://github.com/BindBC/bindbc-sdl.git ref/bindbc-sdl
+ref/bindbc-loader/README.md:
+	git clone --depth 1 https://github.com/BindBC/bindbc-loader.git ref/bindbc-loader
 
 # merge
 
