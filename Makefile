@@ -29,6 +29,7 @@ CURL = curl -L -o
 LDC2 = $(CWD)/ldc/$(LDC_OS)/bin/ldc2
 
 # src
+D += $(wildcard src/*.d)
 D  = source/app.d \
 		$(filter-out source/app.d, \
 			$(wildcard source/*.d source/metal/*.d))
