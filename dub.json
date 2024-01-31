@@ -1,18 +1,17 @@
 {
-    "name": "d",
+    "name":        "d",
     "description": "D lang workout",
     "homepage":    "https://github.com/ponyatov/d",
-    "authors":    ["Dmitry Ponyatov"],
-    "copyright":   "Copyright © 2023, Dmitry Ponyatov",
+    "authors":    ["Dmitry Ponyatov <dponyatov@gmail.com>"],
+    "copyright":   "Copyright © 2024, Dmitry Ponyatov <dponyatov@gmail.com>",
     "license":     "MIT",
     "targetType":  "executable",
     "targetPath":  "bin",
     "targetName":  "D",
-    "dflags-dmd":   ["-od=tmp"],
-    "subPackages":  ["player"],
+    "subPackages":  [],
     "dependencies": {
-        "ffmpeg-d": "~>4.4.1",
-		"bindbc-sdl": "~>1.4.2",
-        "dlangui": "0.10.4"
+        "ffmpeg-d":   "4.4.1",
+        "bindbc-sdl": "1.4.5"
+        "dlangui":    "0.10.4"
     }
 }

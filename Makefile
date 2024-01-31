@@ -8,28 +8,30 @@ BRANCH  = $(shell git rev-parse --abbrev-ref HEAD)
 CORES  ?= $(shell grep processor /proc/cpuinfo | wc -l)
 
 # version
+D_VER = 2.106.1
 # LDC_VER = 1.34.0 debian 12 libc 2.29
 # LDC_VER = 1.33.0 2.29 since 1.32.1
 LDC_VER = 1.32.0
 
 # dir
-CWD = $(CURDIR)
-BIN = $(CWD)/bin
-SRC = $(CWD)/src
-TMP = $(CWD)/tmp
-GZ  = $(HOME)/gz
-
-# package
-LDC    = ldc2-$(LDC_VER)
-LDC_OS = $(LDC)-linux-x86_64
-LDC_GZ = $(LDC_OS).tar.xz
+CWD  = $(CURDIR)
+BIN  = $(CWD)/bin
+SRC  = $(CWD)/src
+TMP  = $(CWD)/tmp
+REF  = $(CWD)/ref
+GZ   = $(HOME)/gz
 
 # tool
 CURL = curl -L -o
+CF   = clang-format
+DC   = /usr/bin/dmd
+DUB  = /usr/bin/dub
+RUN  = $(DUB) run   --compiler=$(DC)
+BLD  = $(DUB) build --compiler=$(DC)
 LDC2 = $(CWD)/ldc/$(LDC_OS)/bin/ldc2
 
 # src
-D += $(wildcard src/*.d)
+D += $(wildcard src/*.d*)
 D  = source/app.d \
 		$(filter-out source/app.d, \
 			$(wildcard source/*.d source/metal/*.d))
@@ -38,25 +40,42 @@ D += $(wildcard player/src/*.d)
 J += $(wildcard *.json)
 
 # cfg
-DC      = dmd
 DFLAGS += -unittest
 DFLAGS += -v
 DFLAGS += -of=bin/$(MODULE) -od=tmp
 
+# package
+BUSYBOX    = busybox-$(BUSYBOX_VER)
+BUSYBOX_GZ = $(BUSYBOX).tar.bz2
+
+LDC    = ldc2-$(LDC_VER)
+LDC_OS = $(LDC)-linux-x86_64
+LDC_GZ = $(LDC_OS).tar.xz
+
 # all
 .PHONY: all
 all: $(D)
-	dub run
-# rdmd $(DFLAGS) $<
+	$(RUN)
 
+# format
+format: tmp/format_d
+tmp/format_d: $(D)
+	$(RUN) dfmt -- -i $? && touch $@
+
+# rule
 bin/$(MODULE): $(D) $(J) Makefile
-	dub build
-# $(DC) $(DFLAGS) $^
+	$(BLD)
 
-doc: doc/yazyk_programmirovaniya_d.pdf doc/Programming_in_D.pdf \
-	 doc/d-readthedocs-io-en-latest.pdf doc/BuildWebAppsinVibe.pdf
+$(REF)/%/configure: $(GZ)/%.tar.gz
+	cd ref ; zcat $< | tar x && chmod +x $@ ; touch $@
+$(REF)/%/README.md: $(GZ)/%.tar.gz
+	cd ref ; zcat $< | tar x &&               touch $@
 
-doc/yazyk_programmirovaniya_d.pdf:
+# doc
+.PHONY: doc
+doc:
+
+doc/yazyk_D.pdf:
 	$(CURL) $@ https://www.k0d.cc/storage/books/D/yazyk_programmirovaniya_d.pdf
 doc/Programming_in_D.pdf:
 	$(CURL) $@ http://ddili.org/ders/d.en/Programming_in_D.pdf
@@ -65,36 +84,20 @@ doc/d-readthedocs-io-en-latest.pdf:
 doc/BuildWebAppsinVibe.pdf:
 	$(CURL) $@ https://raw.githubusercontent.com/reyvaleza/vibed/main/BuildWebAppsinVibe.pdf
 
-# format
-format: tmp/format_d
-tmp/format_d: $(D)
-	dub run dfmt -- -i $? && touch $@
-$(D) $(J): .editorconfig
-	touch $@ ; $(MAKE) tmp/format_d
-
-# rule
-$(SRC)/%/configure: $(GZ)/%.tar.gz
-	cd src ; zcat $< | tar x && chmod +x $@ ; touch $@
-$(SRC)/%/README.md: $(GZ)/%.tar.gz
-	cd src ; zcat $< | tar x &&               touch $@
-
 # install
-APT_SRC = /etc/apt/sources.list.d
-ETC_APT = $(APT_SRC)/d-apt.list $(APT_SRC)/llvm.list
 .PHONY: install update gz
-install: doc gz $(ETC_APT)
-	sudo apt update && sudo apt --allow-unauthenticated install -yu d-apt-keyring
+install: doc gz
 	$(MAKE) update
-	dub fetch dfmt
+	dub build dfmt
 update:
 	sudo apt update
 	sudo apt install -yu `cat apt.txt`
-$(APT_SRC)/%: tmp/%
-	sudo cp $< $@
-tmp/d-apt.list:
-	sudo $(CURL) $@ http://master.dl.sourceforge.net/project/d-apt/files/d-apt.list
+gz: $(DC) $(DUB)
 
-gz: $(GZ)/$(LDC_GZ)
+$(DC) $(DUB): $(HOME)/distr/SDK/dmd_$(D_VER)_amd64.deb
+	sudo dpkg -i $< && sudo touch $(DC) $(DUB)
+$(HOME)/distr/SDK/dmd_$(D_VER)_amd64.deb:
+	$(CURL) $@ https://downloads.dlang.org/releases/2.x/$(D_VER)/dmd_$(D_VER)-0_amd64.deb
 
 WASM_FLAGS += -mtriple=wasm32-unknown-unknown-wasm
 WASM_FLAGS += --betterC
@@ -134,19 +137,33 @@ $(CLANG_DIR)/libclang.so: $(CLANG_DIR)/$(CLANG_11)
 	sudo ln -s $< $@
 	sudo apt install -yu libclang-11-dev
 
-# ref
-
-.PHONY: ref
-ref: ref/bindbc-sdl ref/bindbc-loader
-
-ref/bindbc-sdl:
-	git clone --depth 1 https://github.com/BindBC/bindbc-sdl.git $@
-ref/bindbc-loader:
-	git clone --depth 1 https://github.com/BindBC/bindbc-loader.git $@
-
 # merge
+MERGE += README.md Makefile apt.txt LICENSE
+MERGE += .clang-format .doxygeb .editorconfig .gitignore
+MERGE += .vscode bin doc inc src tmp ref
+
+.PHONY: dev
+dev:
+	git push -v
+	git checkout $@
+	git pull -v
+	git checkout shadow -- $(MERGE)
+
+.PHONY: shadow
+shadow:
+	git push -v
+	git checkout $@
+	git pull -v
 
 .PHONY: release
 release:
 	git tag $(NOW)-$(REL)
 	git push -v --tags
+	$(MAKE) shadow
+
+.PHONY: zip
+zip:
+	git archive \
+		--format zip \
+		--output $(TMP)/$(MODULE)_$(NOW)_$(REL).src.zip \
+	HEAD

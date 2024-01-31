@@ -11,6 +11,13 @@
     ],
 
     // files
+    "files.exclude": {
+        "docs/**": true,
+		".vscode/*.log": true
+	},
+    "files.watcherExclude": {
+        "docs/**": true
+    },
     "files.associations": {
     },
 
@@ -40,6 +47,9 @@
     "d.projectImportPaths": [
         "${userHome}/D/ref",
         "${userHome}/.dub/packages"
+    ],
+    "dscanner.ignoredKeys": [
+        "dscanner.style.phobos_naming_convention"
     ],
     "d.dubPath":     "/usr/bin/dub",
     "d.dmdPath":     "/usr/bin/dmd",
